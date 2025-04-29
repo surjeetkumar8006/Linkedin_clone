@@ -86,11 +86,12 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.profileFetched = true;
-
-        // Safely update profile data
-        state.user = action.payload?.user || {}; // Default to empty object if user data is undefined
+      
+        state.user = action.payload?.profile?.userId || {};  // ✅ सिर्फ userId को ही user में store करो
+        state.profile = action.payload?.profile || {};       // ✅ बाकी प्रोफ़ाइल अलग से रखो
         state.message = "Profile fetched successfully";
       })
+      
       .addCase(getUserProfile.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;

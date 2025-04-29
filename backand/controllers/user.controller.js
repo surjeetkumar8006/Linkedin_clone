@@ -185,41 +185,44 @@ export const updateUserProfile = async (req, res) => {
     console.error("❌ Update User Profile Error:", err);
     return res.status(500).json({ message: err.message });
   }
-};
-export const getUserAndProfile = async (req, res) => {
-  const { token } =req.query; // Expecting token in the body
-
-  if (!token) {
-    return res.status(400).json({ message: "Token is required" });
-  }
-
-  console.log("Received token:", token);
-
-  try {
-    const userId = Array.from(userTokens.keys()).find(
-      (key) => userTokens.get(key) === token
-    );
-
-    if (!userId) {
-      return res.status(401).json({ message: "User not found" });
+  };
+  
+  export const getUserAndProfile = async (req, res) => {
+    const { token } = req.query;
+  
+    if (!token) {
+      return res.status(400).json({ message: "Token is required" });
     }
-
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(401).json({ message: "User not found" });
+  
+    try {
+      const userId = Array.from(userTokens.keys()).find(
+        (key) => userTokens.get(key) === token
+      );
+  
+      if (!userId) {
+        return res.status(401).json({ message: "User not found" });
+      }
+  
+      const user = await User.findById(userId).select('-password'); // Hide password
+      if (!user) {
+        return res.status(401).json({ message: "User not found" });
+      }
+  
+      const profile = await Profile.findOne({ userId: user._id });
+      if (!profile) {
+        return res.status(404).json({ message: "Profile not found" });
+      }
+  
+      return res.json({
+        user,      // ✅ Send full user info like name, email, username etc.
+        profile    // ✅ Send profile separately if needed
+      });
+    } catch (err) {
+      console.error("❌ Get User and Profile Error:", err);
+      return res.status(500).json({ message: err.message });
     }
-
-    const profile = await Profile.findOne({ userId: user._id });
-    if (!profile) {
-      return res.status(404).json({ message: "Profile not found" });
-    }
-
-    return res.json(profile);
-  } catch (err) {
-    console.error("❌ Get User and Profile Error:", err);
-    return res.status(500).json({ message: err.message });
-  }
-};
+  };
+  
 
 
 export const updateProfileData = async (req, res) => {
@@ -253,10 +256,8 @@ export const updateProfileData = async (req, res) => {
 
 export const getAllUserProfile = async (req, res) => {
   try {
-    const profile = await Profile.findOne().populate(
-      "userId",
-      "name username profilePicture email"
-    );
+    const profiles = await Profile.find().populate("userId", "name username profilePicture email");
+
     if (!profile) {
       return res.status(404).json({ message: "Profile not found" });
     }

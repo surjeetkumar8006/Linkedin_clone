@@ -80,7 +80,7 @@ export const getUserProfile = createAsyncThunk(
       }
 
       // Pass token as a query parameter
-      const response = await clientServer.get(`/get_user_and_profile?token=${token}`);
+      const response = await clientServer.get("user/get_all_user_profile");
 
       return response.data;
     } catch (error) {
