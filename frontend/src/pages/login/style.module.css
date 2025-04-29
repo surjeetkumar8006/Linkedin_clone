@@ -1,0 +1,116 @@
+.loginContainer {
+  display: flex;
+  min-height: 100vh;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, #f0f2f5, #dbe2ef);
+}
+
+.loginContainer_left,
+.loginContainer_right {
+  flex: 1;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.loginContainer_left {
+  background-color: #ffffff;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+}
+
+.loginContainer_right {
+  background: linear-gradient(to bottom right, #0073b1, #005983);
+  color: white;
+  text-align: center;
+}
+
+.welcomeText h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.welcomeText p {
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.input {
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #0073b1;
+  box-shadow: 0 0 0 2px rgba(0, 115, 177, 0.2);
+}
+
+.submitButton {
+  background-color: #0073b1;
+  color: white;
+  border: none;
+  padding: 12px 15px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submitButton:hover {
+  background-color: #005983;
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+.success {
+  color: green;
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+.toggleOption {
+  margin-top: 20px;
+  font-size: 0.95rem;
+}
+
+.toggleLink {
+  color: #0073b1;
+  cursor: pointer;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.toggleLink:hover {
+  color: #005983;
+}
+
+@media screen and (max-width: 768px) {
+  .loginContainer {
+    flex-direction: column;
+  }
+
+  .loginContainer_left,
+  .loginContainer_right {
+    padding: 30px;
+    flex: none;
+  }
+
+  .loginContainer_right {
+    order: -1;
+  }
+}
